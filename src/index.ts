@@ -18,7 +18,7 @@ export default class HexletCode {
 
     callback(builder);
 
-    return new Tag('form', { action, method }, builder.buildContent()).toString();
+    return new Tag('form', { method, action }, builder.buildContent()).toString();
   }
 }
 

@@ -1,7 +1,9 @@
 import Tag from './Tag.js';
 
-export type InputOptions = Record<string, string | number> & {
+export type InputOptions = Record<string, unknown> & {
   as?: 'textarea';
+  label?: string;
+  labelHtml?: Record<string, string | number>;
 };
 
 const fieldLabel = (name: string): string => name.charAt(0).toUpperCase() + name.slice(1);
@@ -16,19 +18,23 @@ export default class FormBuilder {
       throw new Error(`Field '${name}' does not exist in the template.`);
     }
 
-    this.parts.push(
-      new Tag('label', { for: name }, fieldLabel(name)).toString(),
-    );
+    const {
+      as, label, labelHtml, ...rest
+    } = options;
+    const fieldAttrs = rest as Record<string, string | number>;
+
+    const labelAttrs = { for: name, ...(labelHtml ?? {}) };
+    const labelText = label ?? fieldLabel(name);
+    this.parts.push(new Tag('label', labelAttrs, labelText).toString());
 
     const value = String(this.template[name]);
-    const { as, ...rest } = options;
 
     if (as === 'textarea') {
       const attrs = {
         cols: 20,
         rows: 40,
         name,
-        ...rest,
+        ...fieldAttrs,
       };
       this.parts.push(new Tag('textarea', attrs, value).toString());
       return;
@@ -38,7 +44,7 @@ export default class FormBuilder {
       name,
       type: 'text',
       value,
-      ...rest,
+      ...fieldAttrs,
     };
     this.parts.push(new Tag('input', attrs).toString());
   }

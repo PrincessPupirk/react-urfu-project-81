@@ -15,13 +15,13 @@ describe('HexletCode.formFor', () => {
   test('returns empty form with default action and method', () => {
     const form = HexletCode.formFor(template, {}, () => {});
 
-    expect(form).toBe('<form action="#" method="post"></form>');
+    expect(form).toBe('<form method="post" action="#"></form>');
   });
 
   test('uses url option as form action', () => {
     const form = HexletCode.formFor(template, { url: '/users' }, () => {});
 
-    expect(form).toBe('<form action="/users" method="post"></form>');
+    expect(form).toBe('<form method="post" action="/users"></form>');
   });
 
   test('generates text inputs and textarea from template', () => {
@@ -86,5 +86,19 @@ describe('HexletCode.formFor', () => {
     });
 
     expect(form).toBe(fixture('form-with-custom-submit.html'));
+  });
+
+  test('supports custom label text and label attributes', () => {
+    const form = HexletCode.formFor(template, { method: 'post' }, (f) => {
+      f.input('name', {
+        label: 'User',
+        labelHtml: { class: 'form-label', id: 'name-label' },
+      });
+      f.submit('Ok');
+    });
+
+    expect(form).toBe(
+      '<form method="post" action="#"><label for="name" class="form-label" id="name-label">User</label><input name="name" type="text" value="rob"><input type="submit" value="Ok"></form>',
+    );
   });
 });
