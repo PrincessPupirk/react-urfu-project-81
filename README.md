@@ -1,6 +1,8 @@
 # Генератор форм на Typescript
 
 [![hexlet-check](https://github.com/PrincessPupirk/react-urfu-project-81/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/PrincessPupirk/react-urfu-project-81/actions)
+[![Typescript CI](https://github.com/PrincessPupirk/react-urfu-project-81/actions/workflows/typescript.yml/badge.svg)](https://github.com/PrincessPupirk/react-urfu-project-81/actions/workflows/typescript.yml)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=PrincessPupirk_react-urfu-project-81&metric=coverage)](https://sonarcloud.io/summary/new_code?id=PrincessPupirk_react-urfu-project-81)
 
 Библиотека, с помощью которой удобно создавать формы в шаблонах сайтов. Она заметно сокращает код описания формы за счет автоматической обработки ошибок и различных контролов.
 
@@ -9,20 +11,43 @@
 
 ## Стек
 
-- JavaScript
+- TypeScript
+- ESLint
+- Vitest
 
 ## Установка
-
-<!-- Опишите установку: клонирование, зависимости, переменные окружения -->
 
 ```bash
 git clone https://github.com/PrincessPupirk/react-urfu-project-81.git
 cd react-urfu-project-81
+make install
+```
+
+## Команды
+
+```bash
+make lint           # ESLint
+make test           # Vitest
+make test-coverage  # Vitest + покрытие (порог 80%)
+make typecheck      # проверка типов
+make build          # сборка в dist/
 ```
 
 ## Использование
 
-<!-- Добавьте примеры запуска и запись asciinema — именно это смотрит работодатель -->
+```javascript
+import HexletCode from '@hexlet/code';
+
+const template = { name: 'rob', job: 'hexlet', gender: 'm' };
+const form = HexletCode.formFor(template, { method: 'post' }, (f) => {
+  f.input('name');
+  f.input('job', { as: 'textarea' });
+  f.submit('Wow');
+});
+
+console.log(form);
+// <form action="#" method="post"><label for="name">Name</label><input name="name" type="text" value="rob"><label for="job">Job</label><textarea cols="20" rows="40" name="job">hexlet</textarea><input type="submit" value="Wow"></form>
+```
 
 ---
 
