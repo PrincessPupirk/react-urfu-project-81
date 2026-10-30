@@ -3,11 +3,23 @@
   "version": "1.0.0",
   "description": "Библиотека для генерации HTML-форм",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=22"
   },
   "scripts": {
+    "prepare": "npm run build",
     "build": "rm -rf ./dist && tsc",
     "typecheck": "tsc --noEmit",
     "lint": "eslint --ext .ts src __tests__ vitest.config.ts",
